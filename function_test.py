@@ -23,20 +23,21 @@ class NewVistorTest(unittest.TestCase):
 
 		input_box = self.browser.find_element(By.ID,'id_new_item')
 
+
 		self.assertEqual(input_box.get_attribute('placeholder'),
 				   'Enter a to-do item')
 		
-		input_box.send_keys('Buy flowers')
+		input_box.send_keys('Give a gift to Lisi')
 
 		input_box.send_keys(Keys.ENTER)
 
-		time.sleep(1)
+		time.sleep(10)
 
 		table = self.browser.find_element(By.ID,'id_list_table')
-		rows = table.find_element(By.TAG_NAME,'tr')
+		rows = table.find_elements(By.TAG_NAME,'tr')
 
 		self.assertIn('1: Buy flowers', [row.text for row in rows])
-
+		self.assertIn('2: Give a gift to Lisi', [row.text for row in rows])
 
 		self.fail('Finish the test!')
 
