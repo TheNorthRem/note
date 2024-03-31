@@ -28,7 +28,7 @@ class NewVistorTest(unittest.TestCase):
 		
 		input_box.send_keys('Buy flowers')
 
-		input_box.send_keys(Keys.Enter)
+		input_box.send_keys(Keys.ENTER)
 
 		time.sleep(1)
 
@@ -37,7 +37,6 @@ class NewVistorTest(unittest.TestCase):
 
 		self.assertIn('1: Buy flowers', [row.text for row in rows])
 
-	
 
 		self.fail('Finish the test!')
 
