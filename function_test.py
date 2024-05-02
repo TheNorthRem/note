@@ -12,6 +12,11 @@ class NewVistorTest(unittest.TestCase):
 	def tearDown(self):
 		self.browser.quit()
 
+	def check_for_row_in_list_table(self,row_text):
+		table = self.browser.find_element(By.ID,'id_list_table')
+		rows = table.find_elements(By.TAG_NAME,'tr')
+		self.assertIn(row_text,[row.text for row in rows])
+
 	def test_can_start_a_list_and_retrieve_it_later(self):
 		self.browser.get('http://localhost:8000')
 
@@ -21,23 +26,30 @@ class NewVistorTest(unittest.TestCase):
 
 		self.assertIn('To-Do',header_test)
 
-		input_box = self.browser.find_element(By.ID,'id_new_item')
+		inputbox = self.browser.find_element(By.ID,'id_new_item')
 
 
-		self.assertEqual(input_box.get_attribute('placeholder'),
+		self.assertEqual(inputbox.get_attribute('placeholder'),
+				   
 				   'Enter a to-do item')
 		
-		input_box.send_keys('Give a gift to Lisi')
+		inputbox.send_keys('Give a gift to Lisi')
 
-		input_box.send_keys(Keys.ENTER)
+		inputbox.send_keys(Keys.ENTER)
 
-		time.sleep(10)
+		time.sleep(1)
 
-		table = self.browser.find_element(By.ID,'id_list_table')
-		rows = table.find_elements(By.TAG_NAME,'tr')
+		self.check_for_row_in_list_table('1: Buy flowers')
 
-		self.assertIn('1: Buy flowers', [row.text for row in rows])
-		self.assertIn('2: Give a gift to Lisi', [row.text for row in rows])
+		inputbox =self.browser.find_element(By.ID,'id_new_item')
+		
+		inputbox.send_keys('Give a gift to Lisi')
+		inputbox.send_keys(Keys.ENTER)
+
+		time.sleep(1)
+
+		self.check_for_row_in_list_table('1: Buy flowers')
+		self.check_for_row_in_list_table('2: Give a gift to Lisi')
 
 		self.fail('Finish the test!')
 
