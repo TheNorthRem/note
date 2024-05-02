@@ -33,7 +33,7 @@ class NewVistorTest(unittest.TestCase):
 				   
 				   'Enter a to-do item')
 		
-		inputbox.send_keys('Give a gift to Lisi')
+		inputbox.send_keys('Buy flowers')
 
 		inputbox.send_keys(Keys.ENTER)
 
