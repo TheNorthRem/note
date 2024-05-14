@@ -104,4 +104,4 @@ class NewVistorTest(LiveServerTestCase):
 		page_next = self.browser.find_element(By.TAG_NAME,'body').text
 
 		self.assertNotIn('Buy flowers',page_next)
-		self.assertNotIn('Buy milk',page_next)
+		self.assertIn('Buy milk',page_next)
