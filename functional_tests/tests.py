@@ -13,6 +13,7 @@ class NewVistorTest(StaticLiveServerTestCase):
 	def setUp(self):
 		self.browser =  webdriver.Chrome()
 		real_server = os.environ.get('REAL_SERVER')
+		
 		if real_server:
 			self.live_server_url='http://'+real_server
 
@@ -23,6 +24,8 @@ class NewVistorTest(StaticLiveServerTestCase):
 	def test_layout_and_styling(self):
 		self.browser.get(self.live_server_url)
 		self.browser.set_window_size(1024,768)
+
+		time.sleep(5)
 
 		inputbox =  self.browser.find_element(By.ID,'id_new_item')
 
