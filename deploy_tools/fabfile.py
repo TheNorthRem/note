@@ -2,7 +2,7 @@ from fabric.contrib.files import append,exists, sed
 from fabric.api import env,local,run
 import random
 
-REPO_URL= 'https://github.com/TheNorthRem/note.git'
+REPO_URL= 'git@github.com:TheNorthRem/note.git'
 
 def deploy():
     site_folder = f'/root/sites/{env.host}'
@@ -23,9 +23,13 @@ def _get_latest_source(source_folder):
         run(f'cd {source_folder} && git fetch')
     else:
         run(f'git clone {REPO_URL} {source_folder}')
-    
-    current_commit = local("git log -n 1 --format=%H",capture=True)
-    run(f'cd {source_folder} && git reset --hard {current_commit}')
+
+    prefix = "Active code page: 65001\n"
+    current_commit = remove_prefix(local("git log -n 1 --format=%H",capture=True))
+  
+
+    run(f'cd {source_folder} && git reset --hard "{current_commit}" ')
+
 
 def _update_settings(source_folder,site_name):
     settings_path = source_folder+ '/notes/settings.py'
@@ -56,6 +60,10 @@ def _update_database(source_folder):
         ' && ../virtualenv/bin/python manage.py migrate --noinput'
     )
 
+def remove_prefix(input_string):
+    if '\n' in input_string:
+        return input_string[input_string.rfind('\n')+1:]
+    return input_string
+
 if __name__ == "__main__":
     local('fab -f /path/fabfile.py deploy')
-    
